@@ -16,6 +16,5 @@ public class PetClinicApplication {
         MyController myController = (MyController) applicationContext.getBean("myController");
         myController.helloSpring();
 
-        System.out.println((short)-3>>>0);
     }
 }
