@@ -15,5 +15,7 @@ public class PetClinicApplication {
         // get a Bean using name of bean from ApplicationContext
         MyController myController = (MyController) applicationContext.getBean("myController");
         myController.helloSpring();
+
+        System.out.println((short)-3>>>0);
     }
 }

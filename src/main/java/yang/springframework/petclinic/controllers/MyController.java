@@ -1,5 +1,6 @@
 package yang.springframework.petclinic.controllers;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import yang.springframework.petclinic.services.MyService;
 
@@ -8,7 +9,7 @@ public class MyController {
     private MyService myService;
 
     // Inject Dependency automatically
-    public MyController(MyService myService) {
+    public MyController(@Qualifier("myServiceImpl") MyService myService) {
         this.myService = myService;
     }
 
