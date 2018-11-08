@@ -2,19 +2,19 @@ package yang.springframework.petclinic.controllers;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import yang.springframework.petclinic.services.MyService;
+import yang.springframework.petclinic.services.OwnerService;
 
 @Controller
 public class MyController {
-    private MyService myService;
+    private OwnerService ownerService;
 
     // Inject Dependency automatically
-    public MyController(@Qualifier("myServiceImpl") MyService myService) {
-        this.myService = myService;
+    public MyController(@Qualifier("ownerServiceImpl") OwnerService ownerService) {
+        this.ownerService = ownerService;
     }
 
     public String helloSpring() {
-        System.out.println(myService.helloSpring());
+//        System.out.println(ownerService.helloSpring());
 
         return "foo";
     }
