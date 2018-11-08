@@ -7,7 +7,6 @@ import java.util.Set;
 
 public class OwnerServiceMap extends AbstractMapService<Owner,Long> implements CrudService<Owner,Long> {
 
-
     @Override
     public Set<Owner> findAll() {
         return super.findALl();
