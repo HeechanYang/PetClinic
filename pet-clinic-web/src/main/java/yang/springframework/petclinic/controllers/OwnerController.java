@@ -1,8 +1,8 @@
 package yang.springframework.petclinic.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import yang.springframework.petclinic.services.OwnerService;
 
 @Controller
@@ -11,13 +11,13 @@ public class OwnerController {
 
     private OwnerService ownerService;
 
-    public OwnerController() {
+    public OwnerController(OwnerService ownerService) {
+        this.ownerService = ownerService;
     }
 
     @RequestMapping(value = {"", "/", "/index", "/index.html"})
-    public ModelAndView getOwnerList(ModelAndView modelAndView){
-
-        modelAndView.setViewName("owners/index");
-        return modelAndView;
-    }
+    public String getOwnerList(Model model){
+        model.addAttribute("owners",ownerService.findAll());
+        return "owners/index";
+}
 }

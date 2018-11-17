@@ -1,8 +1,8 @@
 package yang.springframework.petclinic.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import yang.springframework.petclinic.services.PetService;
 
 @Controller
@@ -11,13 +11,13 @@ public class PetController {
 
     private PetService petService;
 
-    public PetController() {
+    public PetController(PetService petService) {
+        this.petService = petService;
     }
 
     @RequestMapping(value = {"", "/", "/index", "/index.html"})
-    public ModelAndView getPetList(ModelAndView modelAndView){
-
-        modelAndView.setViewName("pets/index");
-        return modelAndView;
+    public String getPetList(Model model){
+        model.addAttribute("pets",petService.findAll());
+        return "pets/index";
     }
 }

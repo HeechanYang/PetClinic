@@ -7,4 +7,22 @@
 <body>
     <h1 th:text="'List of Pets'">List of Pets...</h1>
 </body>
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Birthdate</th>
+        <th>Owner Name</th>
+        <th>Type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pet : ${pets}">
+        <td th:text="${pet.id}">1</td>
+        <td th:text="${pet.getBirthDate()}">Joe</td>
+        <td th:text="${pet.getOwner().getFirstName()} + ${pet.getOwner().getLastName()}">Buck</td>
+        <td th:text="${pet.getPetType().getName()}">Buck</td>
+    </tr>
+    </tbody>
+</table>
 </html>
