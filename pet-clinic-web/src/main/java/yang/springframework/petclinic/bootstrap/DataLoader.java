@@ -28,19 +28,16 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) {
         Owner owner3 = new Owner();
-        owner3.setId(1L);
         owner3.setFirstName("Heechan");
         owner3.setLastName("Yang");
         ownerService.save(owner3);
 
         Owner owner1 = new Owner();
-        owner1.setId(2L);
         owner1.setFirstName("Jemin");
         owner1.setLastName("Song");
         ownerService.save(owner1);
 
         Owner owner2 = new Owner();
-        owner2.setId(3L);
         owner2.setFirstName("Jaieun");
         owner2.setLastName("Na");
         ownerService.save(owner2);
@@ -51,21 +48,18 @@ public class DataLoader implements CommandLineRunner {
         }
 
         Pet pet1 = new Pet();
-        pet1.setId(1L);
         pet1.setOwner(owner1);
         pet1.setBirthDate(LocalDate.now());
         pet1.setPetType(new PetType("웰시코기"));
         petService.save(pet1);
 
         Pet pet2 = new Pet();
-        pet2.setId(2L);
         pet2.setOwner(owner3);
         pet2.setBirthDate(LocalDate.now());
         pet2.setPetType(new PetType("푸들"));
         petService.save(pet2);
 
         Pet pet3 = new Pet();
-        pet3.setId(3L);
         pet3.setOwner(owner3);
         pet3.setBirthDate(LocalDate.now());
         pet3.setPetType(new PetType("나재은"));
@@ -77,13 +71,11 @@ public class DataLoader implements CommandLineRunner {
         }
 
         Vet vet1 = new Vet();
-        vet1.setId(1L);
         vet1.setFirstName("Jo");
         vet1.setLastName("Eunsu");
         vetService.save(vet1);
 
         Vet vet2 = new Vet();
-        vet2.setId(2L);
         vet2.setFirstName("uhmm");
         vet2.setLastName("mmm");
         vetService.save(vet2);
