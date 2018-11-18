@@ -2,14 +2,8 @@ package yang.springframework.petclinic.bootstrap;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import yang.springframework.petclinic.model.Owner;
-import yang.springframework.petclinic.model.Pet;
-import yang.springframework.petclinic.model.PetType;
-import yang.springframework.petclinic.model.Vet;
-import yang.springframework.petclinic.services.OwnerService;
-import yang.springframework.petclinic.services.PetService;
-import yang.springframework.petclinic.services.PetTypeService;
-import yang.springframework.petclinic.services.VetService;
+import yang.springframework.petclinic.model.*;
+import yang.springframework.petclinic.services.*;
 
 import java.time.LocalDate;
 
@@ -20,16 +14,22 @@ public class DataLoader implements CommandLineRunner {
     private final PetService petService;
     private final VetService vetService;
     private final PetTypeService petTypeService;
+    private final SpecialityService specialityService;
 
-    public DataLoader(OwnerService ownerService, PetService petService, VetService vetService, PetTypeService petTypeService) {
+    public DataLoader(OwnerService ownerService, PetService petService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService) {
         this.ownerService = ownerService;
         this.petService = petService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
+        this.specialityService = specialityService;
     }
 
     @Override
     public void run(String... args) {
+        loadData();
+    }
+
+    private void loadData() {
         PetType petType1 = new PetType();
         petType1.setName("Dog");
         PetType petType2 = new PetType();
@@ -109,15 +109,34 @@ public class DataLoader implements CommandLineRunner {
             System.out.println(p.getId() +" "+ p.getOwner().getFirstName()+" " + p.getBirthDate());
         }
 
+        Speciality speciality1 = new Speciality();
+        speciality1.setDescription("radiology");
+        Speciality savedSpeciality1 = specialityService.save(speciality1);
+        Speciality speciality2 = new Speciality();
+        speciality2.setDescription("surgery");
+        Speciality savedSpeciality2 = specialityService.save(speciality2);
+        Speciality speciality3 = new Speciality();
+        speciality3.setDescription("dentistry");
+        Speciality savedSpeciality3 = specialityService.save(speciality3);
+
         Vet vet1 = new Vet();
         vet1.setFirstName("Jo");
         vet1.setLastName("Eunsu");
+        vet1.getSpecialities().add(savedSpeciality1);
+        vet1.getSpecialities().add(savedSpeciality2);
         vetService.save(vet1);
 
         Vet vet2 = new Vet();
         vet2.setFirstName("uhmm");
         vet2.setLastName("mmm");
+        vet2.getSpecialities().add(savedSpeciality1);
+        vet2.getSpecialities().add(savedSpeciality3);
         vetService.save(vet2);
+
+        System.out.println("############### Speciality ###############");
+        for(Speciality s : specialityService.findAll()){
+            System.out.println(s.getId() +" "+ s.getDescription());
+        }
 
         System.out.println("###############Vet###############");
         for(Vet v : vetService.findAll()){

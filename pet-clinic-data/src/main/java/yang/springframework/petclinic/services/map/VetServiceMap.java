@@ -2,13 +2,18 @@ package yang.springframework.petclinic.services.map;
 
 import org.springframework.stereotype.Service;
 import yang.springframework.petclinic.model.Vet;
+import yang.springframework.petclinic.services.SpecialityService;
 import yang.springframework.petclinic.services.VetService;
 
 import java.util.Set;
 
 @Service
-public class VetServiceMap extends AbstractMapService<Vet,Long> implements VetService {
+public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetService {
+    private SpecialityService specialityService;
 
+    public VetServiceMap(SpecialityService specialityService) {
+        this.specialityService = specialityService;
+    }
 
     @Override
     public Set<Vet> findAll() {
@@ -27,7 +32,22 @@ public class VetServiceMap extends AbstractMapService<Vet,Long> implements VetSe
 
     @Override
     public Vet save(Vet object) {
-        return super.save(object);
+        if (object != null) {
+            if (object.getSpecialities().size() > 0) {
+                object.getSpecialities().forEach(speciality -> {
+                    if (speciality != null) {
+                        if (speciality.getId() == null) {
+                            object.getSpecialities().add(specialityService.save(speciality));
+                        }
+                    } else {
+                        throw new RuntimeException("Speciality is required");
+                    }
+                });
+            }
+            return super.save(object);
+        } else {
+            return null;
+        }
     }
 
     @Override
