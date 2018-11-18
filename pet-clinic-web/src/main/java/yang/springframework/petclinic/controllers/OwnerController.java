@@ -19,8 +19,13 @@ public class OwnerController {
 
     @RequestMapping(value = {"", "/", "/index", "/index.html"}, method = RequestMethod.GET)
     @ApiOperation(position = 1, value = "주인 홈", notes = "")
-    public String getOwnerList(Model model){
-        model.addAttribute("owners",ownerService.findAll());
+    public String getOwnerList(Model model) {
+        model.addAttribute("owners", ownerService.findAll());
         return "owners/index";
-}
+    }
+    @RequestMapping(value = "/find", method = RequestMethod.GET)
+    @ApiOperation(position = 2, value = "주인 찾기 페이지", notes = "")
+    public String findOwners() {
+        return "notimplemented";
+    }
 }
