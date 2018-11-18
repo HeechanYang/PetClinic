@@ -5,7 +5,7 @@ import yang.springframework.petclinic.services.PetTypeService;
 
 import java.util.Set;
 
-public class PetTypeServiceMap extends AbstractMapService<PetType, Long> implements PetTypeService<PetType, Long> {
+public class PetTypeServiceMap extends AbstractMapService<PetType, Long> implements PetTypeService {
     @Override
     public Set<PetType> findAll() {
         return super.findAll();
