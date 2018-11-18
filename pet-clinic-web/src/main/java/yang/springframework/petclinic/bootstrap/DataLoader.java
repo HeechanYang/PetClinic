@@ -8,6 +8,7 @@ import yang.springframework.petclinic.model.PetType;
 import yang.springframework.petclinic.model.Vet;
 import yang.springframework.petclinic.services.OwnerService;
 import yang.springframework.petclinic.services.PetService;
+import yang.springframework.petclinic.services.PetTypeService;
 import yang.springframework.petclinic.services.VetService;
 
 import java.time.LocalDate;
@@ -18,11 +19,13 @@ public class DataLoader implements CommandLineRunner {
     private final OwnerService ownerService;
     private final PetService petService;
     private final VetService vetService;
+    private final PetTypeService petTypeService;
 
-    public DataLoader(OwnerService ownerService, PetService petService, VetService vetService) {
+    public DataLoader(OwnerService ownerService, PetService petService, VetService vetService, PetTypeService petTypeService) {
         this.ownerService = ownerService;
         this.petService = petService;
         this.vetService = vetService;
+        this.petTypeService = petTypeService;
     }
 
     @Override
@@ -47,22 +50,40 @@ public class DataLoader implements CommandLineRunner {
             System.out.println(o.getId() +" "+ o.getFirstName()+" " + o.getLastName());
         }
 
+        PetType petType1 = new PetType();
+        petType1.setName("Dog");
+        petTypeService.save(petType1);
+        PetType petType2 = new PetType();
+        petType2.setName("Cat");
+        petTypeService.save(petType2);
+        PetType petType3 = new PetType();
+        petType3.setName("Snake");
+        petTypeService.save(petType3);
+        PetType petType4 = new PetType();
+        petType4.setName("Najaeeun");
+        petTypeService.save(petType4);
+
+        System.out.println("###############PetType###############");
+        for(PetType pt : petTypeService.findAll()){
+            System.out.println(pt.getId() +" "+ pt.getName());
+        }
+
         Pet pet1 = new Pet();
         pet1.setOwner(owner1);
         pet1.setBirthDate(LocalDate.now());
-        pet1.setPetType(new PetType("웰시코기"));
+        pet1.setPetType(petType1);
         petService.save(pet1);
 
         Pet pet2 = new Pet();
         pet2.setOwner(owner3);
         pet2.setBirthDate(LocalDate.now());
-        pet2.setPetType(new PetType("푸들"));
+        pet2.setPetType(petType2);
         petService.save(pet2);
 
         Pet pet3 = new Pet();
         pet3.setOwner(owner3);
         pet3.setBirthDate(LocalDate.now());
-        pet3.setPetType(new PetType("나재은"));
+        pet3.setPetType(petType3);
         petService.save(pet3);
 
         System.out.println("###############Pet###############");
