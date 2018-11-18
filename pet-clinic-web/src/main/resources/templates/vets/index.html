@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'vets')}">
 <head>
     <meta charset="UTF-8">
     <title>Vet List</title>
 </head>
 <body>
     <h1 th:text="'List of Vets'">List of Vets...</h1>
-</body>
 <table class="table table-striped">
     <thead>
     <tr>
@@ -23,4 +22,5 @@
     </tr>
     </tbody>
 </table>
+</body>
 </html>
