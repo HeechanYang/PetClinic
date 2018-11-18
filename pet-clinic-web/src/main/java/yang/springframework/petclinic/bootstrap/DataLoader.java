@@ -30,61 +30,79 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        PetType petType1 = new PetType();
+        petType1.setName("Dog");
+        PetType petType2 = new PetType();
+        petType2.setName("Cat");
+        PetType petType3 = new PetType();
+        petType3.setName("Snake");
+        PetType petType4 = new PetType();
+        petType4.setName("Najaeeun");
+
         Owner owner3 = new Owner();
         owner3.setFirstName("Heechan");
         owner3.setLastName("Yang");
+        owner3.setAddress("Seoul, Nowon");
+        owner3.setCity("Seoul");
+        owner3.setTelephone("01011111111");
+
+        Pet pet1 = new Pet();
+        pet1.setPetType(petType1);
+        pet1.setOwner(owner3);
+        pet1.setName("Mong-ee");
+        pet1.setBirthDate(LocalDate.now());
+        owner3.getPets().add(pet1);
+
+        Pet pet2 = new Pet();
+        pet2.setPetType(petType1);
+        pet2.setName("bag-goo");
+        pet2.setOwner(owner3);
+        pet2.setBirthDate(LocalDate.now());
+        owner3.getPets().add(pet2);
+
         ownerService.save(owner3);
 
         Owner owner1 = new Owner();
         owner1.setFirstName("Jemin");
         owner1.setLastName("Song");
+        owner1.setAddress("Seoul, Nowon");
+        owner1.setCity("Seoul");
+        owner1.setTelephone("01011111111");
+
+        Pet pet3 = new Pet();
+        pet3.setOwner(owner1);
+        pet3.setName("Mew");
+        pet3.setBirthDate(LocalDate.now());
+        pet3.setPetType(petType2);
+        owner1.getPets().add(pet3);
+
         ownerService.save(owner1);
 
         Owner owner2 = new Owner();
         owner2.setFirstName("Jaieun");
         owner2.setLastName("Na");
+        owner2.setAddress("Seoul, Nowon");
+        owner2.setCity("Seoul");
+        owner2.setTelephone("01011111111");
+
+        Pet pet4 = new Pet();
+        pet4.setName("Uhm");
+        pet4.setOwner(owner2);
+        pet4.setBirthDate(LocalDate.now());
+        pet4.setPetType(petType3);
+        owner2.getPets().add(pet4);
+
         ownerService.save(owner2);
-
-        System.out.println("###############Owner###############");
-        for(Owner o : ownerService.findAll()){
-            System.out.println(o.getId() +" "+ o.getFirstName()+" " + o.getLastName());
-        }
-
-        PetType petType1 = new PetType();
-        petType1.setName("Dog");
-        petTypeService.save(petType1);
-        PetType petType2 = new PetType();
-        petType2.setName("Cat");
-        petTypeService.save(petType2);
-        PetType petType3 = new PetType();
-        petType3.setName("Snake");
-        petTypeService.save(petType3);
-        PetType petType4 = new PetType();
-        petType4.setName("Najaeeun");
-        petTypeService.save(petType4);
 
         System.out.println("###############PetType###############");
         for(PetType pt : petTypeService.findAll()){
             System.out.println(pt.getId() +" "+ pt.getName());
         }
 
-        Pet pet1 = new Pet();
-        pet1.setOwner(owner1);
-        pet1.setBirthDate(LocalDate.now());
-        pet1.setPetType(petType1);
-        petService.save(pet1);
-
-        Pet pet2 = new Pet();
-        pet2.setOwner(owner3);
-        pet2.setBirthDate(LocalDate.now());
-        pet2.setPetType(petType2);
-        petService.save(pet2);
-
-        Pet pet3 = new Pet();
-        pet3.setOwner(owner3);
-        pet3.setBirthDate(LocalDate.now());
-        pet3.setPetType(petType3);
-        petService.save(pet3);
+        System.out.println("###############Owner###############");
+        for(Owner o : ownerService.findAll()){
+            System.out.println(o.getId() +" "+ o.getFirstName()+" " + o.getLastName());
+        }
 
         System.out.println("###############Pet###############");
         for(Pet p : petService.findAll()){
