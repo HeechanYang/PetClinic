@@ -7,14 +7,13 @@ import yang.springframework.petclinic.model.repositories.OwnerRepository;
 import yang.springframework.petclinic.model.repositories.PetRepository;
 import yang.springframework.petclinic.model.repositories.PetTypeRepository;
 import yang.springframework.petclinic.services.OwnerService;
-import yang.springframework.petclinic.services.map.AbstractMapService;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
 @Profile("springdatajpa")
-public class OwnerSDJpaService extends AbstractMapService<Owner, Long> implements OwnerService {
+public class OwnerSDJpaService implements OwnerService {
 
     private final OwnerRepository ownerRepository;
     private final PetRepository petRepository;
