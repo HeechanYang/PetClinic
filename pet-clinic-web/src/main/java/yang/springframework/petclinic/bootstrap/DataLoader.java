@@ -1,5 +1,6 @@
 package yang.springframework.petclinic.bootstrap;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import yang.springframework.petclinic.model.*;
@@ -8,6 +9,7 @@ import yang.springframework.petclinic.services.*;
 import java.time.LocalDate;
 
 @Component
+@Slf4j
 public class DataLoader implements CommandLineRunner {
 
     private final OwnerService ownerService;
@@ -20,7 +22,7 @@ public class DataLoader implements CommandLineRunner {
     public DataLoader(OwnerService ownerService, PetService petService
             , VetService vetService, PetTypeService petTypeService
             , SpecialityService specialityService, VisitService visitService) {
-        this.ownerService = ownerService;
+        this.ownerService = ownerService;   
         this.petService = petService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
@@ -42,6 +44,11 @@ public class DataLoader implements CommandLineRunner {
         petType3.setName("Snake");
         PetType petType4 = new PetType();
         petType4.setName("Najaeeun");
+
+        petTypeService.save(petType1);
+        petTypeService.save(petType2);
+        petTypeService.save(petType3);
+        petTypeService.save(petType4);
 
         Owner owner3 = new Owner();
         owner3.setFirstName("Heechan");
@@ -105,19 +112,19 @@ public class DataLoader implements CommandLineRunner {
 
         ownerService.save(owner2);
 
-        System.out.println("###############PetType###############");
+        log.debug("###############PetType###############");
         for(PetType pt : petTypeService.findAll()){
-            System.out.println(pt.getId() +" "+ pt.getName());
+            log.debug(pt.getId() +" "+ pt.getName());
         }
 
-        System.out.println("###############Owner###############");
+        log.debug("###############Owner###############");
         for(Owner o : ownerService.findAll()){
-            System.out.println(o.getId() +" "+ o.getFirstName()+" " + o.getLastName());
+            log.debug(o.getId() +" "+ o.getFirstName()+" " + o.getLastName());
         }
 
-        System.out.println("###############Pet###############");
+        log.debug("###############Pet###############");
         for(Pet p : petService.findAll()){
-            System.out.println(p.getId() +" "+ p.getOwner().getFirstName()+" " + p.getBirthDate());
+            log.debug(p.getId() +" "+ p.getOwner().getFirstName()+" " + p.getBirthDate());
         }
 
         Speciality speciality1 = new Speciality();
@@ -144,14 +151,14 @@ public class DataLoader implements CommandLineRunner {
         vet2.getSpecialities().add(savedSpeciality3);
         vetService.save(vet2);
 
-        System.out.println("############### Speciality ###############");
+        log.debug("############### Speciality ###############");
         for(Speciality s : specialityService.findAll()){
-            System.out.println(s.getId() +" "+ s.getDescription());
+            log.debug(s.getId() +" "+ s.getDescription());
         }
 
-        System.out.println("###############Vet###############");
+        log.debug("###############Vet###############");
         for(Vet v : vetService.findAll()){
-            System.out.println(v.getId() +" "+ v.getFirstName()+" " + v.getLastName());
+            log.debug(v.getId() +" "+ v.getFirstName()+" " + v.getLastName());
         }
     }
 }

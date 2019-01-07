@@ -1,11 +1,13 @@
 package yang.springframework.petclinic.controllers;
 
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
+@Slf4j
 @RequestMapping(value = "/")
 public class IndexController {
 //    private OwnerService ownerService;
@@ -15,16 +17,18 @@ public class IndexController {
 //        this.ownerService = ownerService;
 //    }
 
-    @RequestMapping(value = {"/","index", "index.html", ""}, method = RequestMethod.GET)
+    @GetMapping(value = {"/","index", "index.html", ""})
     @ApiOperation(position = 1, value = "홈", notes = "")
     public String index() {
+        log.debug("This is Main Index");
 
         return "index";
     }
 
-    @RequestMapping(value = "/oops", method = RequestMethod.GET)
+    @GetMapping(value = "/oops")
     @ApiOperation(position = 2, value = "웁스", notes = "")
     public String oops() {
+        log.debug("This is Oops page");
         return "notimplemented";
     }
 }

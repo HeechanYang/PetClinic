@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 //Exclude Circular dependency
-@EqualsAndHashCode(exclude = "owner", callSuper = true)
+@EqualsAndHashCode(exclude = {"owner","petType","visits"}, callSuper = true)
 @Data
 @Entity
 @Table(name = "pets")
