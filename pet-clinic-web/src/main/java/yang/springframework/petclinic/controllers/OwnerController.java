@@ -37,7 +37,7 @@ public class OwnerController {
     }
 
     @GetMapping(value = "/{ownerId}")
-    @ApiOperation(position = 2, value = "주인 찾기 페이지", notes = "")
+//    @ApiOperation(position = 2, value = "주인 찾기 페이지", notes = "")
     public ModelAndView showOwner(@PathVariable Long ownerId) {
         log.debug("This is showOwner Id : " + ownerId);
 

@@ -11,7 +11,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import java.util.Locale;
 
 @SpringBootApplication
-@ImportResource("classpath:swagger-config.xml")
+@ImportResource(value = {"classpath:swagger-config.xml"})
 public class PetClinicApplication {
 
     @Bean
