@@ -8,6 +8,7 @@ import yang.springframework.petclinic.services.OwnerService;
 import yang.springframework.petclinic.services.PetService;
 import yang.springframework.petclinic.services.PetTypeService;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -69,6 +70,11 @@ public class OwnerMapService extends AbstractMapService<Owner,Long> implements O
 
     @Override
     public Owner findByLastName(String lastName) {
+        return null;
+    }
+
+    @Override
+    public List<Owner> findAllByLastNameLike(String lastName) {
         return null;
     }
 }
