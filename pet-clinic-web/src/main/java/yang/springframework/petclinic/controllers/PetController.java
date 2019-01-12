@@ -23,7 +23,6 @@ import java.util.Collection;
 public class PetController {
 
     private static final String VIEWS_PET_CREATE_OR_UPDATE_PET_FORM = "pets/createOrUpdatePetForm";
-    private static final String VIEWS_PET_CREATE_OR_UPDATE_VISIT_FORM = "pets/createOrUpdateVisitForm";
 
     private final OwnerService ownerService;
     private final PetService petService;
@@ -43,6 +42,12 @@ public class PetController {
 //        return "pets/index";
 //    }
 
+    // What is this?
+    @InitBinder("owner")
+    public void initOwnerBinder(WebDataBinder dataBinder) {
+        dataBinder.setDisallowedFields("id");
+    }
+
     @ModelAttribute("types")
     public Collection<PetType> popularPetTypes() {
         return this.petTypeService.findAll();
@@ -51,11 +56,6 @@ public class PetController {
     @ModelAttribute("owner")
     public Owner findOwner(@PathVariable("ownerId") Long ownerId) {
         return this.ownerService.findById(ownerId);
-    }
-
-    @InitBinder("owner")
-    public void initOwnerBinder(WebDataBinder dataBinder) {
-        dataBinder.setDisallowedFields("id");
     }
 
     @GetMapping("/new")
