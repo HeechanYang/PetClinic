@@ -1,25 +1,29 @@
 package yang.springframework.petclinic.controllers;
 
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import yang.springframework.petclinic.model.Owner;
+import yang.springframework.petclinic.model.Pet;
 import yang.springframework.petclinic.model.PetType;
 import yang.springframework.petclinic.services.OwnerService;
 import yang.springframework.petclinic.services.PetService;
 import yang.springframework.petclinic.services.PetTypeService;
 
+import javax.validation.Valid;
 import java.util.Collection;
 
 @Controller
 @Slf4j
-@RequestMapping("/pets")
+@RequestMapping("/owners/{ownerId}/pets")
 public class PetController {
 
-    private static final String VIEWS_PET_CREATE_OR_UPDATE_FORM = "/pets/createOrUpdateForm";
+    private static final String VIEWS_PET_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
+    private static final String VIEWS_PET_CREATE_OR_UPDATE_VISIT_FORM = "pets/createOrUpdateVisitForm";
 
     private final OwnerService ownerService;
     private final PetService petService;
@@ -31,27 +35,70 @@ public class PetController {
         this.petTypeService = petTypeService;
     }
 
-    @GetMapping(value = {"", "/", "/index", "/index.html"})
-    @ApiOperation(position = 1, value = "애완동물 홈", notes = "")
-    public String getPetList(Model model){
-        log.debug("This is Pet's Index");
-        model.addAttribute("pets",petService.findAll());
-        return "pets/index";
-    }
-
+//    @GetMapping(value = {"", "/", "/index", "/index.html"})
+//    @ApiOperation(position = 1, value = "애완동물 홈", notes = "")
+//    public String getPetList(Model model) {
+//        log.debug("This is Pet's Index");
+//        model.addAttribute("pets", petService.findAll());
+//        return "pets/index";
+//    }
 
     @ModelAttribute("types")
-    public Collection<PetType> popularPetTypes(){
+    public Collection<PetType> popularPetTypes() {
         return this.petTypeService.findAll();
     }
 
     @ModelAttribute("owner")
-    public Owner findOwner(@PathVariable("ownerId") Long ownerId){
+    public Owner findOwner(@PathVariable("ownerId") Long ownerId) {
         return this.ownerService.findById(ownerId);
     }
 
     @InitBinder("owner")
-    public void initOwnerBinder(WebDataBinder dataBinder){
+    public void initOwnerBinder(WebDataBinder dataBinder) {
         dataBinder.setDisallowedFields("id");
+    }
+
+    @GetMapping("/new")
+    public String initCreationForm(Owner owner, Model model) {
+        Pet pet = new Pet();
+        owner.getPets().add(pet);
+        model.addAttribute("pet", pet);
+        return VIEWS_PET_CREATE_OR_UPDATE_FORM;
+    }
+
+    @PostMapping("/new")
+    public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, Model model){
+        if(StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) !=null){
+            result.rejectValue("name", "duplicate", "already exist");
+        }
+        owner.getPets().add(pet);
+        if(result.hasErrors()){
+            model.addAttribute("pet",pet);
+            return VIEWS_PET_CREATE_OR_UPDATE_FORM;
+        }else{
+            this.petService.save(pet);
+            return "redirect:owners/{ownerId}";
+        }
+    }
+
+    @GetMapping("/{petId}/edit")
+    public String initUpdateForm(@PathVariable Long petId, Model model){
+        Pet pet = petService.findById(petId);
+        model.addAttribute("pet", pet);
+
+        return VIEWS_PET_CREATE_OR_UPDATE_FORM;
+    }
+
+    @PostMapping("/{petId}/edit")
+    public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, Model model){
+        if(result.hasErrors()){
+            pet.setOwner(owner);
+            model.addAttribute("pet", pet);
+            return VIEWS_PET_CREATE_OR_UPDATE_FORM;
+        }else{
+            owner.getPets().add(pet);
+            petService.save(pet);
+            return "redirect:owners/" + owner.getId();
+        }
     }
 }

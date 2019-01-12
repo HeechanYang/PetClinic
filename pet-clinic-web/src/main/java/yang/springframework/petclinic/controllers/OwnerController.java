@@ -21,10 +21,10 @@ import java.util.List;
 @RequestMapping("/owners")
 public class OwnerController {
 
-    private static final String VIEWS_OWNER_LIST = "/owners/ownerList";
-    private static final String VIEWS_OWNER_DETAIL = "/owners/ownerDetails";
-    private static final String VIEWS_OWNER_FIND = "/owners/findOwners";
-    private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "/owners/createOrUpdateOwnerForm";
+    private static final String VIEWS_OWNER_LIST = "owners/ownerList";
+    private static final String VIEWS_OWNER_DETAIL = "owners/ownerDetails";
+    private static final String VIEWS_OWNER_FIND = "owners/findOwners";
+    private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
     private OwnerService ownerService;
 
@@ -63,7 +63,7 @@ public class OwnerController {
             return VIEWS_OWNER_FIND;
         } else if (resultOwners.size() == 1) {
             owner = resultOwners.get(0);
-            return "redirect:/owners/" + owner.getId();
+            return "redirect:owners/" + owner.getId();
         } else {
             model.addAttribute("selections", resultOwners);
             return VIEWS_OWNER_LIST;
@@ -93,7 +93,7 @@ public class OwnerController {
             return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
         } else {
             Owner savedOwner =  ownerService.save(owner);
-            return "redirect:/owners/" + savedOwner.getId();
+            return "redirect:owners/" + savedOwner.getId();
         }
     }
 }

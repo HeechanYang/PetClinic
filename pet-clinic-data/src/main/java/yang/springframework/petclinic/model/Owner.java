@@ -24,4 +24,24 @@ public class Owner extends Person {
     private String telephone;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<Pet> pets = new HashSet<>();
+
+    public Pet getPet(String petName) {
+        return getPet(petName, false);
+    }
+
+    public Pet getPet(String petName, boolean ignoreNew) {
+        petName = petName.toLowerCase();
+
+        for (Pet pet : this.getPets()) {
+            if (!ignoreNew || !pet.isNew()) {
+                String compName = pet.getName();
+                compName = compName.toLowerCase();
+                if(compName.equals(petName)){
+                    return pet;
+                }
+            }
+        }
+
+        return null;
+    }
 }
