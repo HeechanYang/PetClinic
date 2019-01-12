@@ -1,14 +1,16 @@
 package yang.springframework.petclinic.model;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "vets")
 public class Vet extends Person {

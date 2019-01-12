@@ -1,8 +1,9 @@
 package yang.springframework.petclinic.model;
 
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -10,7 +11,8 @@ import java.util.Set;
 
 //Exclude Circular dependency
 @EqualsAndHashCode(exclude = "pets", callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "owners")
 public class Owner extends Person {

@@ -22,7 +22,7 @@ import java.util.Collection;
 @RequestMapping("/owners/{ownerId}/pets")
 public class PetController {
 
-    private static final String VIEWS_PET_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
+    private static final String VIEWS_PET_CREATE_OR_UPDATE_PET_FORM = "pets/createOrUpdatePetForm";
     private static final String VIEWS_PET_CREATE_OR_UPDATE_VISIT_FORM = "pets/createOrUpdateVisitForm";
 
     private final OwnerService ownerService;
@@ -61,44 +61,48 @@ public class PetController {
     @GetMapping("/new")
     public String initCreationForm(Owner owner, Model model) {
         Pet pet = new Pet();
-        owner.getPets().add(pet);
+        pet.setOwner(owner);
         model.addAttribute("pet", pet);
-        return VIEWS_PET_CREATE_OR_UPDATE_FORM;
+        return VIEWS_PET_CREATE_OR_UPDATE_PET_FORM;
     }
 
     @PostMapping("/new")
-    public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, Model model){
-        if(StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) !=null){
+    public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, Model model) {
+        if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null) {
             result.rejectValue("name", "duplicate", "already exist");
         }
         owner.getPets().add(pet);
-        if(result.hasErrors()){
-            model.addAttribute("pet",pet);
-            return VIEWS_PET_CREATE_OR_UPDATE_FORM;
-        }else{
-            this.petService.save(pet);
-            return "redirect:owners/{ownerId}";
+        pet.setOwner(owner);
+        if (result.hasErrors()) {
+            model.addAttribute("pet", pet);
+            return VIEWS_PET_CREATE_OR_UPDATE_PET_FORM;
+        } else {
+            this.ownerService.save(owner);
+            return "redirect:/owners/{ownerId}";
         }
     }
 
     @GetMapping("/{petId}/edit")
-    public String initUpdateForm(@PathVariable Long petId, Model model){
+    public String initUpdateForm(@PathVariable Long petId, Model model) {
         Pet pet = petService.findById(petId);
         model.addAttribute("pet", pet);
 
-        return VIEWS_PET_CREATE_OR_UPDATE_FORM;
+        return VIEWS_PET_CREATE_OR_UPDATE_PET_FORM;
     }
 
     @PostMapping("/{petId}/edit")
-    public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, Model model){
-        if(result.hasErrors()){
+    public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, Model model) {
+        if (result.hasErrors()) {
             pet.setOwner(owner);
             model.addAttribute("pet", pet);
-            return VIEWS_PET_CREATE_OR_UPDATE_FORM;
-        }else{
-            owner.getPets().add(pet);
+            return VIEWS_PET_CREATE_OR_UPDATE_PET_FORM;
+        } else {
+            // TODO: I hope to remove this
+            // Why have to setOwner again???
+            // I guess JSP makes new object
+            pet.setOwner(owner);
             petService.save(pet);
-            return "redirect:owners/" + owner.getId();
+            return "redirect:/owners/" + owner.getId();
         }
     }
 }

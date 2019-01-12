@@ -1,12 +1,14 @@
 package yang.springframework.petclinic.model;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(exclude = {"pet"}, callSuper = true)
 @Entity
 @Table(name = "visits")

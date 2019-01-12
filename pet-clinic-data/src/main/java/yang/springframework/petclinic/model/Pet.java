@@ -1,7 +1,8 @@
 package yang.springframework.petclinic.model;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,7 +11,8 @@ import java.util.Set;
 
 //Exclude Circular dependency
 @EqualsAndHashCode(exclude = {"owner","petType","visits"}, callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "pets")
 public class Pet extends BaseEntity{
@@ -30,4 +32,5 @@ public class Pet extends BaseEntity{
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet")
     private Set<Visit> visits = new HashSet<>();
+
 }

@@ -1,14 +1,16 @@
 package yang.springframework.petclinic.model;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @MappedSuperclass
 public class Person extends BaseEntity {
 
